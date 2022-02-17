@@ -8,9 +8,29 @@ use Session;
 class Employees extends Component
 {
 
-public $name, $email, $employee_id, $edit=false;
+
+
+
+    
+/**
+     * 
+     * Attributes
+     *
+     * 
+*/
+
+public $name, $email, $employee_id;
  
 
+
+
+
+/**
+     * 
+     * Reset Input Fields
+     *
+     * 
+*/
    
 public function resetInputFields(){
     $this->name="";
@@ -18,13 +38,13 @@ public function resetInputFields(){
 }
 
 
-public function create(){
-    $this->create=true;
-   
-}
 
 
-
+/**
+     * Store the login credentials of Employee.
+     *
+     * 
+*/
 
 
     public function store(){
@@ -46,6 +66,11 @@ public function create(){
 
 
 
+/**
+     * Retrieve the login credentials of Employee before Edit.
+     * Show these credentials in the edit Employee Form
+     * 
+*/
 
     public function edit($id){
        
@@ -53,28 +78,54 @@ public function create(){
          $this->name = $edit_employee->name; 
          $this->email = $edit_employee->email;  
          $this->employee_id = $edit_employee->id; 
-         $this->edit=true;
+         $this->emit('edit');
         
     }
 
 
 
-
     
 
-    public function update($id){
+    
+/**
+     * 
+     * 
+     * Update the login credentials of Employee.
+     * 
+     *
+     * 
+*/
+
+    public function update(){
+
+        $this->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+         ]);
        
-        $employee_update = User::find($id);
-        $employee_update->name = $this->name; 
-        $employee_update->email = $this->email;  
-        $employee_update->save();
-        $this->edit=false;
+        $employee_update = User::find($this->employee_id);
+        $employee_update->update([
+        'name'=>  $this->name,
+        'email' => $this->email,
+        ]);
+        
         Session::flash('update', 'Employee Updated successfully');
         $this->resetInputFields(); 
        
 
    }
 
+
+
+
+
+   
+/**
+     * 
+     * Delete Employ
+     *
+     * 
+*/
 
    public function destroy($id){
        $delete_employee=User::find($id)->delete();
@@ -86,6 +137,15 @@ public function create(){
 
 
 
+
+   
+/**
+     * 
+     * Display the Employees List in descending order 
+     * From Latest to oldest
+     *
+     * 
+*/
 
     public function render()
     {

@@ -27,6 +27,17 @@
 
 
         @livewireScripts
-               
+             
+        
+
+
+        <script>
+            
+livewire.on('edit',() => {
+    $('#exampleModalEmployee').modal('show');
+   
+});
+
+            </script>
     </body>
 </html>

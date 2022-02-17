@@ -1,4 +1,8 @@
 <x-app-layout>
+ 
+<div class="container shadow p-3 mb-5 bg-white rounded">
+ 
+
 <div>
 <center>
    
@@ -11,6 +15,7 @@
   Add Employee  
 </button>
 <br>
+
 <!--Successs for Employee Addition-->
 @if (session()->has('success'))
           
@@ -42,16 +47,12 @@
 <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
 </center>
+</div>
 
 <div class="container shadow p-3 mb-5 bg-white rounded">
-  
 @include('livewire.create')
 
-@if($edit)
-  @include('livewire.edit') 
-@endif
  
-
 <br>
 <hr>
 <table class="table table-striped">
@@ -72,7 +73,7 @@
   <tr>
   
     <td>{{$employee->name}}</td>
-   <td>{{$employee->email}}</td>
+    <td>{{$employee->email}}</td>
    <td>
      <button class="btn btn-success" wire:click="edit({{$employee->id}})">Edit</button>
      <button class="btn btn-danger" wire:click="destroy({{$employee->id}})">Delete</button>
@@ -84,9 +85,8 @@
   </tbody>
   </table>
   {{ $employees->links() }}
-  
 </div>
-
+@include('livewire.edit')  
 </div>
 
 </x-app-layout>
